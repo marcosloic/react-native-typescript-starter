@@ -1,0 +1,29 @@
+{
+  "presets": [
+    "module:metro-react-native-babel-preset",
+    [
+      "@babel/typescript",
+      {
+        "allExtensions": false
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "root": [
+          "./App.tsx"
+        ]
+      }
+    ],
+      "@babel/proposal-class-properties",
+      "@babel/proposal-object-rest-spread"
+  ]
+}
