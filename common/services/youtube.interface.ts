@@ -14,7 +14,7 @@ export interface IYoutubeSearchResult {
     regionCode: string;
 }
 
-interface IYoutubeSearchResultItem {
+export interface IYoutubeSearchResultItem {
     etag: string;
     id: {
         kind: string,
