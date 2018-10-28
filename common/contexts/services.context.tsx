@@ -9,9 +9,9 @@ export const services: IAPIServices = {
 
 export const ServicesContext = React.createContext(services);
 
-export default function WithServices(serviceType: string): any {
+export default function WithServices(serviceType: string): (component: React.Component) => React.Component<Partial<IAPIServices> | any, any> {
 
-    return (Component: any): any => {
+    return (Component: React.Component<any, any>): React.Component<Partial<IAPIServices> | any, any> => {
         return class extends React.Component {
             constructor(props: any) {
                 super(props);
@@ -24,11 +24,7 @@ export default function WithServices(serviceType: string): any {
                 const props = {...this.props, ...servicesProps};
                 return (
                     <ServicesContext.Consumer>
-                        {
-                            (apiServices) => (
-                                <Component {...props}/>
-                            )
-                        }
+                        {() => <Component {...props}/>}
                     </ServicesContext.Consumer>
                 );
             }
