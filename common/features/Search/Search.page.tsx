@@ -1,17 +1,18 @@
 import React from 'react';
 import {
-    SafeAreaView, ScrollView, ScrollViewComponent,
+    SafeAreaView,
+    ScrollView,
     StyleSheet,
     Text,
     TextInput,
 } from 'react-native';
 import {BasicButton} from '../../components/BasicButton/BasicButton';
-import {YoutubeService} from '../../services/youtube.service';
 import {COLOURS} from '../../styles';
-import {IYoutubeSearchResult, IYoutubeSearchResultItem} from '../../services/youtube.interface';
+import {IYoutubeSearchResult, IYoutubeSearchResultItem, IYoutubeService} from '../../services/youtube.interface';
+import WithServices from '../../contexts/services.context';
 
 interface IPropTypes {
-    service: YoutubeService;
+    youtubeService: IYoutubeService;
 }
 
 interface IState {
@@ -20,9 +21,10 @@ interface IState {
     resultList?: IYoutubeSearchResultItem[];
 }
 
+@WithServices('youtubeService')
 export class SearchPage extends React.Component<IPropTypes, IState> {
 
-    constructor(props: IPropTypes, context: any) {
+    constructor(props: IPropTypes) {
         super(props);
         this.state = {
             textValue: '',
@@ -110,9 +112,11 @@ export class SearchPage extends React.Component<IPropTypes, IState> {
     }
 
     private async onSubmit() {
+        const {youtubeService} = this.props;
+
         if (this.state.textValue.length > 4) {
             try {
-                const result = await this.props.service.searchVideo(this.state.textValue);
+                const result = await youtubeService.searchVideo(this.state.textValue);
                 const data: IYoutubeSearchResult = await result.json();
                 this.setState({resultList: data.items});
             } catch (e) {
